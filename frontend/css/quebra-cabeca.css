@@ -1,0 +1,875 @@
+/* =========================================
+   NOSSO PEQUENO UNIVERSO
+   QUEBRA-CABEÇA ROMÂNTICO
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --rosa: #ff72ac;
+    --rosa-claro: #ffd6e6;
+    --texto: #eac4d5;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+
+    background:
+        radial-gradient(
+            ellipse at 50% 45%,
+            #40132e 0%,
+            #210d20 42%,
+            #100711 100%
+        );
+
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* =========================================
+   FUNDO
+========================================= */
+
+.estrelas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+
+    background-image:
+        radial-gradient(2px 2px at 20% 30%, #ffffff 50%, transparent),
+        radial-gradient(1px 1px at 70% 20%, #ffb6d3 50%, transparent),
+        radial-gradient(2px 2px at 85% 70%, #ffffff 50%, transparent),
+        radial-gradient(1px 1px at 35% 80%, #ffc5dd 50%, transparent),
+        radial-gradient(2px 2px at 55% 55%, #ffffff 50%, transparent);
+
+    background-size: 230px 230px;
+    opacity: 0.55;
+
+    animation: estrelas 15s linear infinite;
+}
+
+.particulas-fundo {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+
+    background:
+        radial-gradient(circle at 15% 20%, #ff5c9b18, transparent 25%),
+        radial-gradient(circle at 85% 75%, #bd277b18, transparent 30%);
+
+    animation: pulsarFundo 6s ease-in-out infinite alternate;
+}
+
+/* =========================================
+   TELA DE ENTRADA
+========================================= */
+
+.entrada-puzzle {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 100vh;
+    min-height: 100svh;
+
+    padding: 25px;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #48132f 0%,
+            #210d20 48%,
+            #100711 100%
+        );
+
+    transition:
+        opacity 1s ease,
+        visibility 1s ease;
+}
+
+.entrada-puzzle.saindo {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.brillo-entrada {
+    position: absolute;
+
+    width: 350px;
+    height: 350px;
+
+    border-radius: 50%;
+
+    background: #ff4c9420;
+    filter: blur(80px);
+
+    animation: brilhoEntrada 4s ease-in-out infinite alternate;
+}
+
+.conteudo-entrada {
+    position: relative;
+    z-index: 2;
+
+    width: 100%;
+    max-width: 520px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    text-align: center;
+}
+
+.pequeno-texto {
+    color: #eac4d5;
+
+    font-size: 10px;
+    letter-spacing: 4px;
+
+    animation: surgirEntrada 1s ease both;
+}
+
+.coracao-entrada {
+    width: 145px;
+    height: 145px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 35px 0 20px;
+
+    border: 1px solid #ff72ac50;
+    border-radius: 50%;
+
+    background: #ff72ac0c;
+
+    box-shadow:
+        0 0 25px #ff72ac30,
+        inset 0 0 25px #ff72ac15;
+
+    animation: surgirEntrada 1.2s ease both;
+}
+
+.coracao-entrada span {
+    color: var(--rosa);
+
+    font-size: 78px;
+
+    text-shadow:
+        0 0 10px #ff72ac,
+        0 0 25px #ff72ac,
+        0 0 50px #e52c82;
+
+    animation: pulsarCoracao 1.5s ease-in-out infinite;
+}
+
+.conteudo-entrada h1 {
+    color: var(--rosa-claro);
+
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(38px, 8vw, 57px);
+    font-weight: 400;
+
+    text-shadow:
+        0 0 12px #ff4c94,
+        0 0 25px #d52a79;
+
+    animation: surgirEntrada 1.4s ease both;
+}
+
+.conteudo-entrada > p {
+    max-width: 420px;
+
+    margin-top: 15px;
+
+    color: #eac4d5;
+
+    font-size: 12px;
+    line-height: 1.9;
+
+    animation: surgirEntrada 1.6s ease both;
+}
+
+.conteudo-entrada .frase-entrada {
+    color: #c99bb2;
+    font-size: 11px;
+
+    animation-delay: 0.3s;
+}
+
+.botao-descobrir {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    margin-top: 32px;
+    padding: 15px 28px;
+
+    border: 1px solid #ed8bb3;
+    border-radius: 40px;
+
+    background: linear-gradient(
+        135deg,
+        #a62d66,
+        #5d173d
+    );
+
+    color: white;
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 0 20px #a52a6660,
+        0 0 40px #a52a6620;
+
+    transition: 0.3s;
+
+    animation: surgirEntrada 1.8s ease both;
+}
+
+.botao-descobrir:hover {
+    transform: translateY(-4px) scale(1.04);
+
+    box-shadow:
+        0 0 25px #ff65a9,
+        0 0 50px #ff65a940;
+}
+
+.botao-descobrir span:last-child {
+    font-size: 18px;
+}
+
+.assinatura-entrada {
+    margin-top: 35px;
+
+    color: #987386;
+
+    font-size: 10px;
+    letter-spacing: 1px;
+
+    animation: surgirEntrada 2s ease both;
+}
+
+/* =========================================
+   PÁGINA DO JOGO
+========================================= */
+
+.pagina-puzzle {
+    position: relative;
+    z-index: 2;
+
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100svh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 35px 18px 65px;
+}
+
+.voltar {
+    position: absolute;
+    top: 28px;
+    left: 35px;
+
+    color: #eac4d5;
+    text-decoration: none;
+
+    font-size: 12px;
+    letter-spacing: 1px;
+
+    transition: 0.3s;
+}
+
+.voltar:hover {
+    color: var(--rosa);
+    transform: translateX(-4px);
+}
+
+/* =========================================
+   CONTEÚDO DO JOGO
+========================================= */
+
+.conteudo-puzzle {
+    width: 100%;
+    max-width: 650px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    text-align: center;
+
+    margin-top: 30px;
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(25px);
+
+    transition:
+        opacity 1s ease,
+        transform 1s ease,
+        visibility 1s ease;
+}
+
+body.jogo-liberado .conteudo-puzzle {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* CABEÇALHO */
+
+.subtitulo {
+    color: var(--texto);
+
+    font-size: 10px;
+    letter-spacing: 3px;
+
+    margin-bottom: 12px;
+}
+
+.conteudo-puzzle h1 {
+    font-family: 'Great Vibes', cursive;
+
+    font-size: clamp(48px, 8vw, 70px);
+    font-weight: 400;
+
+    color: var(--rosa-claro);
+
+    text-shadow:
+        0 0 10px #ff4c94,
+        0 0 25px #d52a79,
+        0 0 45px #a91b60;
+}
+
+.descricao {
+    max-width: 440px;
+
+    margin-top: 8px;
+
+    color: #d8b4c5;
+
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.mensagem-instrucao {
+    margin-top: 25px;
+
+    color: #eac4d5;
+
+    font-size: 11px;
+    letter-spacing: 0.5px;
+}
+
+.mensagem-instrucao span {
+    color: var(--rosa);
+    padding: 0 6px;
+}
+
+/* =========================================
+   PAINEL
+========================================= */
+
+.painel {
+    width: min(100%, 490px);
+
+    margin-top: 25px;
+    padding: 22px;
+
+    border: 1px solid #d95c9860;
+    border-radius: 22px;
+
+    background: linear-gradient(
+        145deg,
+        #571b3b70,
+        #210d2080
+    );
+
+    box-shadow:
+        0 0 35px #a52a6620,
+        inset 0 0 20px #ffffff05;
+
+    backdrop-filter: blur(10px);
+}
+
+/* INFORMAÇÕES */
+
+.informacoes {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 18px;
+}
+
+.contador {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.contador-numero {
+    color: var(--rosa-claro);
+
+    font-size: 23px;
+    font-weight: 600;
+}
+
+.contador-texto {
+    color: #bd91a8;
+
+    font-size: 8px;
+    letter-spacing: 1.5px;
+}
+
+.progresso {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+
+    color: #d8b4c5;
+    font-size: 10px;
+}
+
+.progresso span:last-child {
+    color: var(--rosa-claro);
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* =========================================
+   TABULEIRO
+========================================= */
+
+.tabuleiro {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+
+    gap: 5px;
+
+    padding: 6px;
+
+    border: 1px solid #ff72ac65;
+    border-radius: 15px;
+
+    background: #100711;
+
+    box-shadow:
+        0 0 20px #ff4c9430,
+        inset 0 0 15px #ff4c9410;
+}
+
+.peca {
+    width: 100%;
+    height: 100%;
+
+    border: 1px solid #ffb5d36b;
+    border-radius: 7px;
+
+    background-image: url("../imagens/coracao-romantico.svg");
+    background-repeat: no-repeat;
+    background-size: 300% 300%;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+
+    outline: none;
+}
+
+/* PEÇAS ENTRANDO UMA POR UMA */
+
+/* ANIMAÇÃO DAS PEÇAS SOMENTE NA PRIMEIRA ENTRADA */
+
+body.jogo-liberado.animando-pecas .peca {
+    animation: pecasEntrando 0.65s ease both;
+}
+
+body.jogo-liberado.animando-pecas .peca:nth-child(1) { animation-delay: 0.15s; }
+body.jogo-liberado.animando-pecas .peca:nth-child(2) { animation-delay: 0.25s; }
+body.jogo-liberado.animando-pecas .peca:nth-child(3) { animation-delay: 0.35s; }
+body.jogo-liberado.animando-pecas .peca:nth-child(4) { animation-delay: 0.45s; }
+body.jogo-liberado.animando-pecas .peca:nth-child(5) { animation-delay: 0.55s; }
+body.jogo-liberado.animando-pecas .peca:nth-child(6) { animation-delay: 0.65s; }
+body.jogo-liberado.animando-pecas .peca:nth-child(7) { animation-delay: 0.75s; }
+body.jogo-liberado.animando-pecas .peca:nth-child(8) { animation-delay: 0.85s; }
+body.jogo-liberado.animando-pecas .peca:nth-child(9) { animation-delay: 0.95s; }
+.peca:hover:not(:disabled) {
+    transform: scale(0.97);
+
+    border-color: #ffffff;
+
+    box-shadow: 0 0 12px #ff72ac90;
+}
+
+.peca.selecionada {
+    border: 3px solid #fff0f6;
+
+    transform: scale(0.94);
+
+    box-shadow:
+        0 0 15px #ff72ac,
+        inset 0 0 12px #ff72ac60;
+}
+
+.peca:disabled {
+    cursor: default;
+}
+
+.tabuleiro.concluido .peca {
+    border-color: #ffd6e6;
+    box-shadow: 0 0 10px #ff72ac50;
+}
+
+/* =========================================
+   MENSAGENS
+========================================= */
+
+.mensagem-status {
+    min-height: 35px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 16px;
+
+    color: #eac4d5;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+/* =========================================
+   BOTÕES
+========================================= */
+
+.botao-embaralhar,
+#botaoProximaPagina {
+    display: block;
+
+    margin: 12px auto 0;
+    padding: 12px 23px;
+
+    border: 1px solid #ed8bb3;
+    border-radius: 40px;
+
+    background: linear-gradient(
+        135deg,
+        #a62d66,
+        #5d173d
+    );
+
+    color: white;
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+
+    cursor: pointer;
+
+    box-shadow: 0 0 15px #a52a6640;
+
+    transition: 0.3s;
+}
+
+.botao-embaralhar:hover,
+#botaoProximaPagina:hover {
+    transform: translateY(-3px);
+
+    box-shadow: 0 0 22px #ff65a9;
+}
+
+#botaoProximaPagina {
+    margin-top: 22px;
+    padding: 14px 25px;
+    font-size: 11px;
+}
+
+/* =========================================
+   FINALIZAÇÃO
+========================================= */
+
+.mensagem-final {
+    width: min(100%, 490px);
+
+    margin-top: 22px;
+    padding: 25px 20px;
+
+    border: 1px solid #ff72ac70;
+    border-radius: 20px;
+
+    background: #49152f99;
+
+    box-shadow: 0 0 30px #ff4c9430;
+
+    animation: aparecer 0.8s ease both;
+}
+
+.mensagem-final[hidden] {
+    display: none;
+}
+
+.coracao-final {
+    color: var(--rosa);
+
+    font-size: 42px;
+
+    text-shadow: 0 0 20px #ff72ac;
+
+    animation: pulsar 1.2s infinite;
+}
+
+.mensagem-final h2 {
+    margin-top: 8px;
+
+    color: var(--rosa-claro);
+
+    font-family: 'Great Vibes', cursive;
+    font-size: 38px;
+    font-weight: 400;
+}
+
+.mensagem-final p {
+    margin-top: 10px;
+
+    color: #eac4d5;
+
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.assinatura-final {
+    display: block;
+
+    margin-top: 15px;
+
+    color: var(--rosa-claro);
+
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+/* =========================================
+   ASSINATURA
+========================================= */
+
+.assinatura {
+    position: absolute;
+    bottom: 18px;
+
+    color: #987386;
+
+    font-size: 9px;
+    letter-spacing: 2px;
+}
+
+/* =========================================
+   ANIMAÇÕES
+========================================= */
+
+@keyframes estrelas {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-230px);
+    }
+}
+
+@keyframes pulsarFundo {
+    from {
+        opacity: 0.4;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes pulsar {
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+@keyframes pulsarCoracao {
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.18);
+    }
+}
+
+@keyframes brilhoEntrada {
+    from {
+        transform: scale(0.85);
+        opacity: 0.5;
+    }
+
+    to {
+        transform: scale(1.25);
+        opacity: 1;
+    }
+}
+
+@keyframes surgirEntrada {
+    from {
+        opacity: 0;
+        transform: translateY(22px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pecasEntrando {
+    from {
+        opacity: 0;
+        transform: scale(0.65) rotate(-8deg);
+        filter: blur(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+        filter: blur(0);
+    }
+}
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================================
+   CELULARES
+========================================= */
+
+@media (max-width: 600px) {
+
+    .pagina-puzzle {
+        padding: 65px 13px 55px;
+    }
+
+    .voltar {
+        top: 23px;
+        left: 18px;
+    }
+
+    .conteudo-puzzle {
+        margin-top: 15px;
+    }
+
+    .subtitulo {
+        font-size: 8px;
+        letter-spacing: 2px;
+    }
+
+    .descricao {
+        font-size: 11px;
+    }
+
+    .painel {
+        padding: 14px;
+        border-radius: 17px;
+    }
+
+    .mensagem-instrucao {
+        font-size: 9px;
+    }
+
+    .mensagem-status {
+        font-size: 10px;
+    }
+
+    .coracao-entrada {
+        width: 125px;
+        height: 125px;
+    }
+
+    .coracao-entrada span {
+        font-size: 67px;
+    }
+
+    .conteudo-entrada > p {
+        font-size: 11px;
+    }
+
+    .assinatura {
+        font-size: 8px;
+    }
+}
+
+/* =========================================
+   ACESSIBILIDADE
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+    }
+
+    .entrada-puzzle,
+    .conteudo-puzzle {
+        transition-duration: 0.01ms;
+    }
+}

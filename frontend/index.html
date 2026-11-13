@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#100711">
+    <meta name="description" content="Uma surpresa especial para Heloisa, feita com amor por Lindomar.">
+
+    <title>Nosso Pequeno Universo | Lindomar & Heloisa</title>
+
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Fundo de estrelas -->
+    <div class="estrelas"></div>
+    <div class="particulas-fundo"></div>
+
+    <!-- Efeito de partículas em tela cheia -->
+    <canvas id="efeitosCanvas" aria-hidden="true"></canvas>
+
+    <!-- Tela de abertura -->
+    <main class="abertura">
+
+        <div class="conteudo" id="conteudoAbertura">
+
+            <p class="mensagem-inicial">
+                Uma surpresa foi preparada especialmente para você...
+            </p>
+
+            <!-- Animação do coração e das iniciais -->
+            <div class="animacao">
+
+                <canvas id="coracaoCanvas">
+                    Seu navegador não suporta animações em Canvas.
+                </canvas>
+
+            </div>
+
+            <!-- Identidade do casal -->
+            <section class="identidade">
+
+                <h1>Nosso Pequeno Universo</h1>
+
+                <p class="nomes">
+                    Lindomar <span>♡</span> Heloisa
+                </p>
+
+            </section>
+
+            <!-- Frase -->
+            <p class="frase">
+                Duas histórias, um só coração.
+            </p>
+
+            <!-- Botão -->
+            <button id="botaoEntrar" class="botao-entrar" type="button">
+
+                <span>Toque para começar</span>
+
+                <span class="icone-coracao">♥</span>
+
+            </button>
+
+            <p class="assinatura">
+                Feito com amor, para você.
+            </p>
+
+        </div>
+
+    </main>
+
+    <!-- JavaScript -->
+    <script src="js/script.js"></script>
+
+</body>
+</html>

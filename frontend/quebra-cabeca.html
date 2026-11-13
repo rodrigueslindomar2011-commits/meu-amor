@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#100711">
+
+    <title>Nosso Quebra-Cabeça ❤️</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="css/quebra-cabeca.css">
+</head>
+
+<body>
+
+    <div class="estrelas"></div>
+    <div class="particulas-fundo"></div>
+
+    <!-- ABERTURA ANIMADA -->
+    <section class="entrada-puzzle" id="entradaPuzzle">
+
+        <div class="brilho-entrada"></div>
+
+        <div class="conteudo-entrada">
+
+            <span class="pequeno-texto">UMA SURPRESA ESPECIAL</span>
+
+            <div class="coracao-entrada">
+                <span>♥</span>
+            </div>
+
+            <h1>Um pedacinho de nós...</h1>
+
+            <p>
+                Antes de continuar, quero te convidar para uma
+                pequena brincadeira.
+            </p>
+
+            <p class="frase-entrada">
+                Porque até as histórias mais bonitas são feitas
+                de pequenos pedacinhos que encontram seu lugar.
+            </p>
+
+            <button type="button" class="botao-descobrir" id="botaoDescobrir">
+                <span>Descobrir surpresa</span>
+                <span>♡</span>
+            </button>
+
+            <span class="assinatura-entrada">
+                Com carinho, Lindomar ❤️
+            </span>
+
+        </div>
+
+    </section>
+
+    <!-- CONTEÚDO DO QUEBRA-CABEÇA -->
+    <main class="pagina-puzzle">
+
+        <a href="index.html" class="voltar">
+            ← Voltar
+        </a>
+
+        <section class="conteudo-puzzle" id="conteudoPuzzle">
+
+            <p class="subtitulo">
+                UMA PEQUENA SURPRESA PARA VOCÊ
+            </p>
+
+            <h1>Nosso coração</h1>
+
+            <p class="descricao">
+                Algumas histórias são como quebra-cabeças...
+                cada pedacinho encontra seu lugar no coração.
+            </p>
+
+            <div class="mensagem-instrucao">
+                <span>♡</span>
+                Toque em duas peças para trocar de lugar
+                <span>♡</span>
+            </div>
+
+            <div class="painel">
+
+                <div class="informacoes">
+
+                    <div class="contador">
+                        <span class="contador-numero" id="movimentos">0</span>
+                        <span class="contador-texto">MOVIMENTOS</span>
+                    </div>
+
+                    <div class="progresso">
+                        <span>Monte nosso coração</span>
+                        <span id="pecasCorretas">0/9</span>
+                    </div>
+
+                </div>
+
+                <div
+                    class="tabuleiro"
+                    id="tabuleiro"
+                    aria-label="Quebra-cabeça de nove peças"
+                ></div>
+
+                <p class="mensagem-status" id="mensagemStatus" aria-live="polite">
+                    Cada peça tem seu lugar. Vamos descobrir? 💗
+                </p>
+
+                <button
+                    type="button"
+                    class="botao-embaralhar"
+                    id="botaoEmbaralhar"
+                >
+                    Embaralhar novamente
+                </button>
+
+            </div>
+
+            <!-- MENSAGEM DE CONCLUSÃO -->
+            <div class="mensagem-final" id="mensagemFinal" hidden>
+
+                <div class="coracao-final">♥</div>
+
+                <h2>Você conseguiu!</h2>
+
+                <p>
+                    Assim como cada peça encontrou seu lugar,
+                    meu coração encontrou você.
+                </p>
+
+                <span class="assinatura-final">
+                    Com amor, Lindomar ❤️
+                </span>
+
+                <button type="button" id="botaoProximaPagina">
+                    Entrar no nosso universo ❤️
+                </button>
+
+            </div>
+
+        </section>
+
+        <footer class="assinatura">
+            FEITO COM AMOR, PARA VOCÊ.
+        </footer>
+
+    </main>
+
+    <script src="js/quebra-cabeca.js"></script>
+
+</body>
+</html>
