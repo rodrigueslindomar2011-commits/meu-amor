@@ -26,8 +26,89 @@ $('saudacao').textContent = CONFIG.saudacao;
 $('textoCarta').innerHTML = CONFIG.carta.map(p => `<p>${p}</p>`).join('');
 $('assinatura').innerHTML = CONFIG.assinatura;
 $('assinatura').classList.add('ve0');
-$('grade').innerHTML = CONFIG.fotos.map(f =>
-  `<figure class="foto"><img src="${f.src}" alt="${f.legenda}" onerror="this.remove()"><span>${f.legenda}</span></figure>`).join('');
+const fotos = CONFIG.fotos.slice(0, 5);
+const faixaFotos = $('carrossel-faixa');
+const pontosFotos = $('carrossel-pontos');
+let fotoAtual = 0;
+
+fotos.forEach((foto, indice) => {
+  const figura = document.createElement('figure');
+  figura.className = 'foto';
+  figura.setAttribute('role', 'group');
+  figura.setAttribute('aria-roledescription', 'slide');
+  figura.setAttribute('aria-label', `Foto ${indice + 1} de ${fotos.length}`);
+
+  const imagem = document.createElement('img');
+  imagem.src = foto.src;
+  imagem.alt = foto.legenda;
+  imagem.onerror = () => imagem.remove();
+
+  const legenda = document.createElement('span');
+  legenda.textContent = foto.legenda;
+  figura.append(imagem, legenda);
+  faixaFotos.append(figura);
+
+  const ponto = document.createElement('button');
+  ponto.type = 'button';
+  ponto.setAttribute('aria-label', `Mostrar foto ${indice + 1}`);
+  ponto.addEventListener('click', () => mostrarFoto(indice));
+  pontosFotos.append(ponto);
+});
+
+const setasFotos = [$('foto-anterior'), $('foto-proxima')];
+setasFotos[0].addEventListener('click', () => mostrarFoto(fotoAtual - 1));
+setasFotos[1].addEventListener('click', () => mostrarFoto(fotoAtual + 1));
+
+function mostrarFoto(indice) {
+  if (!fotos.length) return;
+  fotoAtual = (indice + fotos.length) % fotos.length;
+  faixaFotos.style.transform = `translateX(-${fotoAtual * 100}%)`;
+  [...pontosFotos.children].forEach((ponto, i) => {
+    ponto.classList.toggle('ativo', i === fotoAtual);
+    ponto.setAttribute('aria-current', i === fotoAtual ? 'true' : 'false');
+  });
+  faixaFotos.querySelectorAll('.foto').forEach((foto, i) => {
+    foto.setAttribute('aria-hidden', i === fotoAtual ? 'false' : 'true');
+  });
+}
+
+if (fotos.length <= 1) {
+  setasFotos.forEach(seta => { seta.hidden = true; });
+  pontosFotos.hidden = true;
+} else {
+  mostrarFoto(0);
+  const movimentoReduzido = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!movimentoReduzido) {
+    setInterval(() => {
+      if (!document.hidden && !$('carrossel').matches(':hover, :focus-within')) {
+        mostrarFoto(fotoAtual + 1);
+      }
+    }, 5000);
+  }
+}
+
+$('carrossel').addEventListener('keydown', evento => {
+  if (evento.key === 'ArrowLeft') {
+    evento.preventDefault();
+    mostrarFoto(fotoAtual - 1);
+  } else if (evento.key === 'ArrowRight') {
+    evento.preventDefault();
+    mostrarFoto(fotoAtual + 1);
+  }
+});
+
+let inicioDoToque = null;
+$('carrossel-janela').addEventListener('pointerdown', evento => {
+  if (evento.pointerType === 'mouse') return;
+  inicioDoToque = evento.clientX;
+});
+$('carrossel-janela').addEventListener('pointerup', evento => {
+  if (inicioDoToque === null) return;
+  const deslocamento = evento.clientX - inicioDoToque;
+  inicioDoToque = null;
+  if (Math.abs(deslocamento) > 40) mostrarFoto(fotoAtual + (deslocamento < 0 ? 1 : -1));
+});
+$('carrossel-janela').addEventListener('pointercancel', () => { inicioDoToque = null; });
 
 /* ===== ENTRADA ===== */
 const cv = $('ceu'), cx = cv.getContext('2d');

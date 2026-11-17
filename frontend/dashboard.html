@@ -42,7 +42,17 @@
     <audio id="audio" preload="auto" loop playsinline></audio>
   </section>
 
-  <section id="lembrancas"><h2>Nossas lembranças</h2><div class="grade" id="grade"></div></section>
+  <section id="lembrancas">
+    <h2>Nossas lembranças</h2>
+    <div class="carrossel" id="carrossel" role="region" aria-label="Nossas fotos" aria-roledescription="carrossel" tabindex="0">
+      <button class="carrossel-seta" id="foto-anterior" type="button" aria-label="Ver foto anterior">‹</button>
+      <div class="carrossel-janela" id="carrossel-janela">
+        <div class="carrossel-faixa" id="carrossel-faixa"></div>
+      </div>
+      <button class="carrossel-seta" id="foto-proxima" type="button" aria-label="Ver próxima foto">›</button>
+      <div class="carrossel-pontos" id="carrossel-pontos" aria-label="Escolher foto"></div>
+    </div>
+  </section>
   <section id="tempo-juntos"><h2>Nosso tempo juntos</h2><div class="contador" id="contador"></div></section>
 
   <section id="carta">
