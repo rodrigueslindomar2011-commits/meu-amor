@@ -17,6 +17,10 @@ const mensagemFinal = document.getElementById("mensagemFinal");
 
 const botaoEmbaralhar = document.getElementById("botaoEmbaralhar");
 
+const botaoDica = document.getElementById("botaoDica");
+
+const botaoDesfazer = document.getElementById("botaoDesfazer");
+
 const botaoProximaPagina = document.getElementById("botaoProximaPagina");
 
 // ELEMENTOS DA ENTRADA
@@ -34,6 +38,8 @@ let movimentos = 0;
 let selecionada = null;
 
 let concluido = false;
+
+let historico = [];
 
 
 /* ==========================================
@@ -75,29 +81,26 @@ botaoDescobrir.addEventListener("click", () => {
 
 function embaralharPecas() {
 
-    ordem = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+    do {
+        ordem = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
-    for (let i = ordem.length - 1; i > 0; i--) {
+        for (let i = ordem.length - 1; i > 0; i--) {
 
-        const j = Math.floor(Math.random() * (i + 1));
+            const j = Math.floor(Math.random() * (i + 1));
 
-        [ordem[i], ordem[j]] = [ordem[j], ordem[i]];
+            [ordem[i], ordem[j]] = [ordem[j], ordem[i]];
 
-    }
+        }
 
-    // EVITA COMEÇAR COM O QUEBRA-CABEÇA RESOLVIDO
-
-    if (ordem.every((peca, indice) => peca === indice)) {
-
-        [ordem[0], ordem[1]] = [ordem[1], ordem[0]];
-
-    }
+    } while (calcularTrocasMinimas(ordem) < 3 || calcularTrocasMinimas(ordem) > 5);
 
     movimentos = 0;
 
     selecionada = null;
 
     concluido = false;
+
+    historico = [];
 
     mensagemFinal.hidden = true;
 
@@ -112,6 +115,31 @@ function embaralharPecas() {
 
     desenharTabuleiro();
 
+    atualizarControles();
+
+}
+
+function calcularTrocasMinimas(pecas) {
+
+    const visitadas = new Set();
+    let ciclos = 0;
+
+    for (let inicio = 0; inicio < pecas.length; inicio++) {
+
+        if (visitadas.has(inicio)) {
+            continue;
+        }
+
+        ciclos++;
+        let atual = inicio;
+
+        while (!visitadas.has(atual)) {
+            visitadas.add(atual);
+            atual = pecas[atual];
+        }
+    }
+
+    return pecas.length - ciclos;
 }
 
 
@@ -131,10 +159,18 @@ function desenharTabuleiro() {
 
         peca.classList.add("peca");
 
+        const estaCorreta = numero === indice;
+
+        if (estaCorreta) {
+            peca.classList.add("correta");
+        }
+
         peca.setAttribute(
             "aria-label",
-            `Peça ${numero + 1}`
+            `Peça ${numero + 1}${estaCorreta ? ", no lugar correto" : ""}`
         );
+
+        peca.setAttribute("aria-pressed", selecionada === indice);
 
         // POSIÇÃO ORIGINAL DA IMAGEM
 
@@ -218,19 +254,29 @@ function selecionarPeca(indice) {
 
     const segunda = indice;
 
+    historico.push([...ordem]);
+
     [ordem[primeira], ordem[segunda]] =
         [ordem[segunda], ordem[primeira]];
 
-    movimentos++;
+    registrarMovimento();
 
+}
+
+function registrarMovimento() {
+
+    movimentos++;
     selecionada = null;
 
     atualizarMovimentos();
-
-    desenharTabuleiro();
-
     verificarConclusao();
+    desenharTabuleiro();
+    atualizarControles();
 
+    if (!concluido) {
+        mensagemStatus.textContent =
+            "Boa! As peças corretas estão destacadas. Continue assim. 💗";
+    }
 }
 
 
@@ -267,31 +313,26 @@ function atualizarProgresso() {
 
 function verificarConclusao() {
 
-    const resolvido = ordem.every(
+    concluido = ordem.every(
         (peca, indice) => peca === indice
     );
 
-    if (resolvido) {
+    tabuleiro.classList.toggle("concluido", concluido);
+    mensagemFinal.hidden = !concluido;
+    botaoEmbaralhar.textContent = concluido
+        ? "Jogar novamente"
+        : "Embaralhar novamente";
 
-        concluido = true;
-
-        tabuleiro.classList.add("concluido");
-
+    if (concluido) {
         mensagemStatus.textContent =
             "Você conseguiu montar nosso coração! ❤️";
-
-        mensagemFinal.hidden = false;
-
-        botaoEmbaralhar.textContent =
-            "Jogar novamente";
-
-    } else {
-
-        mensagemStatus.textContent =
-            "Muito bem! Continue encontrando os lugares certos. 💗";
-
     }
 
+}
+
+function atualizarControles() {
+    botaoDesfazer.disabled = historico.length === 0;
+    botaoDica.disabled = concluido;
 }
 
 
@@ -303,6 +344,57 @@ botaoEmbaralhar.addEventListener("click", () => {
 
     embaralharPecas();
 
+});
+
+botaoDica.addEventListener("click", () => {
+
+    if (concluido) {
+        return;
+    }
+
+    const posicaoErrada = ordem.findIndex(
+        (peca, indice) => peca !== indice
+    );
+    const posicaoDaPecaCerta = ordem.indexOf(posicaoErrada);
+
+    if (posicaoErrada === -1 || posicaoDaPecaCerta === -1) {
+        verificarConclusao();
+        atualizarControles();
+        return;
+    }
+
+    historico.push([...ordem]);
+    [ordem[posicaoErrada], ordem[posicaoDaPecaCerta]] =
+        [ordem[posicaoDaPecaCerta], ordem[posicaoErrada]];
+
+    registrarMovimento();
+
+    if (!concluido) {
+        mensagemStatus.textContent =
+            "Dica aplicada: uma peça foi colocada no lugar certo. 💕";
+    }
+});
+
+botaoDesfazer.addEventListener("click", () => {
+
+    const ordemAnterior = historico.pop();
+
+    if (!ordemAnterior) {
+        return;
+    }
+
+    ordem = ordemAnterior;
+    movimentos = Math.max(0, movimentos - 1);
+    selecionada = null;
+
+    atualizarMovimentos();
+    verificarConclusao();
+    desenharTabuleiro();
+    atualizarControles();
+
+    mensagemStatus.textContent = concluido
+        ? "Última jogada desfeita. O quebra-cabeça continua resolvido! ❤️"
+        : "Última troca desfeita. Você pode tentar de novo. 💗";
 });
 
 

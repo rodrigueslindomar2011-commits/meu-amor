@@ -550,6 +550,19 @@ body.jogo-liberado.animando-pecas .peca:nth-child(9) { animation-delay: 0.95s; }
         inset 0 0 12px #ff72ac60;
 }
 
+.peca.correta:not(.selecionada) {
+    border-color: #b7f5cb;
+    box-shadow: inset 0 0 12px #b7f5cb20;
+}
+
+.peca:focus-visible,
+.botao-ajuda:focus-visible,
+.botao-embaralhar:focus-visible,
+#botaoProximaPagina:focus-visible {
+    outline: 2px solid #fff0f6;
+    outline-offset: 3px;
+}
+
 .peca:disabled {
     cursor: default;
 }
@@ -581,12 +594,21 @@ body.jogo-liberado.animando-pecas .peca:nth-child(9) { animation-delay: 0.95s; }
    BOTÕES
 ========================================= */
 
+.acoes-jogo {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+
+    margin-top: 12px;
+}
+
+.botao-ajuda,
 .botao-embaralhar,
 #botaoProximaPagina {
     display: block;
 
-    margin: 12px auto 0;
-    padding: 12px 23px;
+    padding: 11px 16px;
 
     border: 1px solid #ed8bb3;
     border-radius: 40px;
@@ -610,6 +632,16 @@ body.jogo-liberado.animando-pecas .peca:nth-child(9) { animation-delay: 0.95s; }
     transition: 0.3s;
 }
 
+.botao-ajuda {
+    background: #35142c;
+}
+
+.botao-ajuda:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+}
+
+.botao-ajuda:not(:disabled):hover,
 .botao-embaralhar:hover,
 #botaoProximaPagina:hover {
     transform: translateY(-3px);
@@ -834,6 +866,10 @@ body.jogo-liberado.animando-pecas .peca:nth-child(9) { animation-delay: 0.95s; }
 
     .mensagem-status {
         font-size: 10px;
+    }
+
+    .acoes-jogo > button {
+        flex: 1 1 120px;
     }
 
     .coracao-entrada {

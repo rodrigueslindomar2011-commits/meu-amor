@@ -2,7 +2,7 @@
 const CONFIG = {
   nomes: ['Lindomar', 'Heloisa'],
   inicio: '2025-07-07T20:30:00',
-  musica: { arquivo: 'musicas/nossa-musica.mp3', titulo: 'Nome da música', artista: 'Artista' },
+  musica: { arquivo: 'musicas/nossa-musica.mp3', titulo: 'Nossa música', artista: 'Lindomar & Heloisa' },
   boasVindas: 'Heloisa, preparei um pequeno universo para você...',
   fotos: [
     { src: 'imagens/foto1.jpg', legenda: 'Legenda 1' },
@@ -121,7 +121,7 @@ function estado(on){ pp.textContent = on ? '❚❚' : '▶'; $('disco').classLis
 function tocar(){ return au.play().then(() => $('aviso').textContent = '').catch(err => { if (err.name !== 'AbortError') $('aviso').textContent = 'Toque no ▶ para ouvir a música.'; }); }
 pp.onclick = () => au.paused ? tocar() : au.pause();
 au.onplay = () => estado(true); au.onpause = () => estado(false);
-au.onerror = () => $('aviso').textContent = 'Não encontrei a música em "' + CONFIG.musica.arquivo + '". Confira o nome do arquivo e a pasta.';
+au.onerror = () => $('aviso').textContent = 'Não foi possível reproduzir "' + CONFIG.musica.arquivo + '". Confira se o arquivo existe, não está vazio e é um MP3 válido.';
 au.ontimeupdate = () => { if (au.duration) pr.value = au.currentTime/au.duration*100; $('tempo').textContent = fmt(au.currentTime)+' / '+fmt(au.duration); };
 au.onloadedmetadata = au.ontimeupdate;
 pr.oninput = () => { if (au.duration) au.currentTime = pr.value/100*au.duration; };
